@@ -1,0 +1,159 @@
+{
+    "openapi": "3.0.0",
+  
+    "info": {
+      "title": "User accounts API",
+      "description": "A user accounts API made with NodeJS and Express.",
+      "contact": {
+        "email": "robsonfx@gmail.com"
+      },
+      "version": "1.0.0"
+    },
+  
+    "servers": [
+      {
+        "url": "/"
+      }
+    ],
+  
+    "tags": [
+      {
+        "name": "Users",
+        "description": "User accounts"
+      }
+    ],
+  
+    "paths": {
+      "/users": {
+        "get": {
+          "tags": ["Users"],
+          "summary": "Read all Users",
+          "description": "Returns all Users if the user is an admin, return an error otherwise.",
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "required": true,
+              "style": "simple",
+              "explode": false,
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Ok"
+            },
+            "400": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+  
+        "post": {
+          "tags": ["Users"],
+          "summary": "Create User",
+          "description": "Creates a new user if the params are valid",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/body"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad params"
+            }
+          }
+        }
+      },
+  
+      "/users/{id}": {
+        "get": {
+          "tags": ["Users"],
+          "summary": "Get user by UUID",
+          "description": "It returns the user if it exists. Returns an error otherwise.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "explode": false,
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Ok"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        }
+      },
+  
+      "/users/{id}/admin": {
+        "patch": {
+          "tags": ["Users"],
+          "summary": "Turn User into Admin",
+          "description": "Makes the user an admin if it exists",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "explode": false,
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Ok"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        }
+      }
+    },
+  
+    "components": {
+      "schemas": {
+        "body": {
+          "required": ["email", "name"],
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          },
+          "example": {
+            "name": "Bill Gates",
+            "email": "bill.gates@testexyz.com"
+          }
+        }
+      }
+    }
+  }
