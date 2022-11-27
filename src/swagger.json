@@ -151,7 +151,7 @@
           },
           "example": {
             "name": "Bill Gates",
-            "email": "bill.gates@testexyz.com"
+            "email": "billgates@testexyz.com"
           }
         }
       }
